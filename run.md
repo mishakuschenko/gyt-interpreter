@@ -1,6 +1,6 @@
 ### Установите dart:
 
-# с официального сайта:
+# С официального сайта:
 ## https://dart.dev/get-dart?spm=2b75ac3d.2ef5001f.0.0.53fec921fhhiVU
 
 # Windows:
