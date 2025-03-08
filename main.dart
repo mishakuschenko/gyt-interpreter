@@ -35,10 +35,20 @@ void main(List<String> args) async {
         program.add(number);
         tokenCounter++; 
       case "print":
-        String stringLiteral = parts.sublist(1).join(' ');
-        stringLiteral = stringLiteral.substring(1, stringLiteral.length - 1);
-        program.add(stringLiteral);
-        tokenCounter++;
+        if (parts.length > 1) {
+          String stringLiteral = parts.sublist(1).join(' ');
+          if (stringLiteral.startsWith('"') && stringLiteral.endsWith('"')) {
+            stringLiteral = stringLiteral.substring(1, stringLiteral.length - 1);
+            program.add(stringLiteral);
+            tokenCounter++;
+          } else {
+            program.add(opcode);
+            tokenCounter++;
+          }
+        } else {
+          program.add(opcode);
+          tokenCounter++;
+        }
       case "jump.eq.0":
         String label = parts[1];
         program.add(label);
@@ -58,7 +68,8 @@ void main(List<String> args) async {
 
     switch (opcode) {
       case 'push':
-        // var number = program[pc];
+        var number = program[pc]; 
+        stack.push(number);       
         pc++;
       case 'pop':
         stack.pop();
@@ -71,9 +82,12 @@ void main(List<String> args) async {
         int b = stack.pop();
         stack.push(b - a);
       case 'print':
-        String stringLiteral = program[pc];
-        pc++;
-        print(stringLiteral);
+        if (program[pc] is String) {
+          stdout.write(program[pc]);
+          pc++;
+        } else { 
+          stdout.write(stack.pop());
+        }
       case 'read':
         String? input = stdin.readLineSync();
         var number = int.parse(input!);

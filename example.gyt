@@ -1,10 +1,6 @@
-read        
-read        
-sub         
-jump.eq.0 l1 ; Переход на l1, так как 0 == 0
-print "not equal"  
-halt  
-
-l1: 
-print "equal" 
-halt 
+push 23
+push 23
+add
+print "23+23="
+print
+halt
